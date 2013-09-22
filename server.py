@@ -13,7 +13,7 @@ clients = []
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('test.html', messages=WebSocketHandler.cache)
+        self.render('test.html')
  
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     waiters = set()
@@ -30,7 +30,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         global l
         print ('tornado received from client: %s' % message)
         l = l + int(message)
-        self.write_message(str(l))
         WebSocketHandler.send_updates(str(l))
 
     @classmethod
