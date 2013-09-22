@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body { margin: 0px; padding: 0px; }
+      canvas { border: 1px solid #9C9898; }
+    </style>
+    <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.7.0.min.js"></script>
+    <script>
+
+      var socket = new WebSocket("ws://localhost:8080/ws");
+      socket.onopen = function(){  
+        console.log("connected"); 
+      }; 
+
+      socket.onmessage = function (message) {
+        console.log("receiving: " + message.data)
+        document.getElementById("text").innerHTML = message.data;
+      };
+ 
+      socket.onclose = function(){
+        console.log("disconnected"); 
+      };
+ 
+      sendMessage = function(message) {
+        socket.send(message);
+      };
+      
+      window.onload = function() { 
+ 
+        document.getElementById('Draw_text1').addEventListener('click', function(k) {
+             sendMessage("1");
+        }, false);
+
+        document.getElementById('Draw_text2').addEventListener('click', function(k) {
+            sendMessage("-1");
+        }, false);
+      
+    };
+ 
+    </script>
+
+  </head>
+  <body>
+    <center>
+      <div id="container"></div>
+      <H1><div id="text"></text></div></H1>
+      <button id="Draw_text1">Понятно</button>
+      <button id="Draw_text2">Непонятно</button>
+    </center>
+
+  </body>
+</html>
